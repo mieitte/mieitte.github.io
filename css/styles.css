@@ -27,6 +27,7 @@ a {
 
 a.active {
 	text-decoration: underline;
+	color: red;
 }
 
 #choropleth-map {
