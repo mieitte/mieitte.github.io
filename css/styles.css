@@ -49,8 +49,8 @@ a.active {
   padding-bottom: 3%;
   padding-left: 5%;
   padding-right: 5%;
-  border-color: red;
-  border-width: 3px;
+  border-color: black;
+  border-width: 1px;
   border-style: dashed;
   height: 700px;
   box-sizing: border-box; /* et padding ei vähenda containeri sisemust */
@@ -58,8 +58,8 @@ a.active {
 
 #map {
 	margin-top: 20px;
-	border-color: blue;
-	border-width: 3px;
+	border-color: black;
+	border-width: 1px;
 	border-style: dashed;
 	height: 90%;
 	width: 100%;
