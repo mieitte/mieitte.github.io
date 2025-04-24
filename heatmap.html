@@ -5,11 +5,8 @@
 	<meta charset="utf-8" />
 	<link rel="stylesheet" href="css/styles.css"/>
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
-	<!-- Styling of marker cluster plugin -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
-    <!--  -->
-	<title>Basic map</title>
+
+	<title>Heatmap</title>
 </head>
 <body class="documentBody">
 	<div class="image">
@@ -19,9 +16,9 @@
 		<h1>Web GIS application</h1> <!-- Kas võib niipidi olla ka? Et pealkiri enne valikuid. -->
 	</div>
 	<nav id="maps" class="sidebar">
-		<a href="index.html" class="active">Basic map</a>
+		<a href="index.html">Basic map</a>
 		<a href="horopleet.html">Choropleth map</a>
-		<a href="heatmap.html">Heatmap</a>
+		<a href="heatmap.html" class="active">Heatmap</a>
 	</nav>
 	<button onclick="defaultMapSettings()">Default</button>
 	<div class="container">
@@ -31,8 +28,7 @@
 		<p>&copy Mie Ite, Tartu Ülikool, 2025</p>
 	</footer>
 	<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-	<!-- script of marker cluster plugin -->
-    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
-	<script src="js/javascript.js"></script>
+	<script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
+	<script src="js/heatmap.js"></script>
 </body>
 </html>
