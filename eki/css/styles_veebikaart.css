@@ -1,0 +1,97 @@
+<style>
+
+h1 {
+  font-weight: normal;
+  font-family: Helvetica, sans-serif;
+}
+
+.documentBody {
+	background-color: rgb(211, 216, 224);
+	margin: 40px;
+	padding: 10px;
+}
+
+.map-link {
+	color: rgb(0, 0, 26);
+	font-family: Helvetica, sans-serif;
+	text-decoration: underline;
+}
+
+.heading {
+	color: rgb(0, 0, 26);
+	text-align: center;
+	font-weight: normal;
+	font-family: Helvetica, sans-serif;
+	margin-top: 2px;
+	margin-bottom: 10px;
+}
+
+.container {
+  margin-top: 30px;
+  /*padding-top: 3%;
+  padding-bottom: 3%;
+  padding-left: 5%;
+  padding-right: 5%; */
+  border-color: black;
+  border-width: 1px;
+  border-style: dashed;
+  height: 800px;
+  box-sizing: border-box; /* et padding ei vähenda containeri sisemust */
+}
+
+#map {
+	/*margin-top: 20px;*/
+	border-color: black;
+	border-width: 1px;
+	border-style: dashed;
+	height: 100%;
+	width: 100%;
+	display: block;
+}
+
+/*Turfi label. */
+/*.parish-label {
+  font-size: 10px;
+  font-weight: normal;
+	font-family: Helvetica, sans-serif;
+  color: #333; */
+  /*text-align: center;
+  white-space: nowrap;
+  pointer-events: none;*/
+/*}*/
+/*Turfi labeli lõpp. */
+
+.popup-text {
+  font-family: Helvetica, sans-serif;
+  font-size: 14px;
+}
+
+#info-box {
+    position: absolute;
+    top: 15px;
+    right: 10px;
+    width: 300px;
+    max-height: 400px;
+    font-family: Helvetica, sans-serif;
+    /*overflow-y: auto;*/
+    background: white;
+    border-radius: 6px;
+    /*padding: 10px;*/
+    z-index: 1000;
+    /* box-shadow: 0 2px 8px rgba(0,0,0,0.2); */
+    display: none;
+}
+
+#info-close {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #666;
+}
+
+#info-close:hover {
+  color: #080808;
+}
+
+</style>
