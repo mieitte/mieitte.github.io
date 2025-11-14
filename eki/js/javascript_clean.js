@@ -1,10 +1,22 @@
-let map = L.map('map').setView([58.588443, 25.787725], 7)
+let map = L.map('map').setView([58.588443, 25.787725], 8)
 
 const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   maxZoom: 19,
   attribution: 'OpenStreetMap contributors',
 })
 osm.addTo(map)
+
+//Maa-ameti orto.
+const maaametOrto = L.tileLayer(
+  'https://tiles.maaamet.ee/tm/tms/1.0.0/foto@GMC/{z}/{x}/{y}.png',
+  {
+    tms: true,
+    maxZoom: 19,
+    attribution: '&copy; <a href="https://geoportaal.maaamet.ee">Maa- ja ruumiamet 2025</a>',
+  }
+);
+
+maaametOrto.addTo(map);
 
 // --- Name to Kihelkond (KHK) mapping
 /* let nameToKhk = {} See algse töötava asjaga ka. */
@@ -143,10 +155,10 @@ function showMapForName(name) {
     let regionText = ''
 
     if (regions.length === 1) {
-      regionText = `Nime esinemisalaks on (ka) ${regions[0]}.` //(ka) lisatud nt nime Aeg jaoks (Käina+Petserimaa)
+      regionText = `Nime "${name}" esinemisalaks on (ka) ${regions[0]}.` //(ka) lisatud nt nime Aeg jaoks (Käina+Petserimaa)
     } else if (regions.length > 1) {
       const last = regions.pop()
-      regionText = `Nime esinemisaladeks on (ka) ${regions.join(', ')} ja ${last}.`
+      regionText = `Nime "${name}" esinemisaladeks on (ka) ${regions.join(', ')} ja ${last}.`
     }
 
     message =
@@ -164,11 +176,11 @@ function showMapForName(name) {
 
   // --- Extra info for VAN / EES
   if (generalKbmCodes.includes('VAN') && generalKbmCodes.includes('EES')) {
-    message += (message ? '<br>' : '') + 'Nime kohta ei teata täpset ajastut.'
+    message += (message ? '<br>' : '') + `Nime "${name}" kohta ei teata täpset ajastut.`
   } else if (generalKbmCodes.includes('VAN')) {
-    message += (message ? '<br>' : '') + 'Nimi esines juba enne perekonnanimede panekut.'
+    message += (message ? '<br>' : '') + `Nimi "${name}" esineb enne üldist nimepanekut, enamasti on teada esinemine aastal 1816. Tegu oli mittetalupoegadega.`
   } else if (generalKbmCodes.includes('EES')) {
-    message += (message ? '<br>' : '') + 'Nimi on eestistamise ajalt.'
+    message += (message ? '<br>' : '') + `"${name}" on eestistamisel (enamasti 1935–1940, harvem 1920–1944) võetud nimi.`
   }
   
 
