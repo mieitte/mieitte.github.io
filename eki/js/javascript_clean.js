@@ -218,6 +218,15 @@ async function init() {
     }
   }).addTo(map)
 
+  const boundariesJson = await fetch('geojson/maakonnad_lines_4326.geojson').then(r => r.json())
+  boundaries = L.geoJson(boundariesJson, {
+    style: {
+      color: '#000407ff',   
+      weight: 2.0,        
+      fill: false        
+    }
+  }).addTo(map)
+
   //Kohanimede paigutus Turfi abil, esimene katse.
   /*geoJson.features.forEach(feature => {
   const centroid = turf.centroid(feature) //Or pointOnFeature
