@@ -222,7 +222,7 @@ async function init() {
   boundaries = L.geoJson(boundariesJson, {
     style: {
       color: '#000407ff',   
-      weight: 2.0,        
+      weight: 1.5,        
       fill: false        
     }
   }).addTo(map)
