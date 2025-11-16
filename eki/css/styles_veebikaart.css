@@ -66,6 +66,16 @@ h1 {
   font-size: 14px;
 }
 
+.leaflet-control-layers-list::before {
+  content: "Haldusjaotus";
+  display: block;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 4px 8px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid #ccc;
+}
+
 #info-box {
     position: absolute;
     top: 15px;
