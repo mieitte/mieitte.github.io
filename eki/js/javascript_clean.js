@@ -142,7 +142,7 @@ function showMapForName(name) {
     L: 'Liivimaa',
     E: 'Eestimaa',
     P: 'Petserimaa',
-    N: 'Narvatagune'
+    N: 'Narvataguse'
   }
 
   // --- Filter general KBM codes to only those we recognize (ignore VAN, EES)
