@@ -1,4 +1,4 @@
-let map = L.map('map').setView([58.588443, 25.787725], 7)
+let map = L.map('map').setView([58.588443, 25.787725], 8)
 
 const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   maxZoom: 19,
@@ -17,6 +17,40 @@ const maaametOrto = L.tileLayer(
 );
 
 maaametOrto.addTo(map);
+
+// default map settings
+/*function defaultMapSettings() {
+  map.setView([58.588443, 25.787725], 8)
+} */
+
+  //Tagastame algse seisu.
+function clearMapState() {
+  // Reset current selected name
+  currentSelectedName = '';
+
+  // Reset polygon colors to their default style
+  polygons.eachLayer(layer => {
+    layer.setStyle({
+      fillColor: '#D3D8E0',
+      fillOpacity: 0.9,
+      color: 'black',
+      weight: 0.5
+    });
+  });
+
+  // Close info box
+  document.getElementById('info-box').style.display = 'none';
+
+  // Reset popup text to default
+  polygons.eachLayer(layer => {
+    const khkName = layer.feature.properties.NIMI;
+    layer.bindPopup(`<b>Kihelkond:</b> ${khkName}`);
+  });
+
+  //Zuumiastme taastamine.
+  map.setView([58.588443, 25.787725], 8);
+}
+
 
 // --- Name to Kihelkond (KHK) mapping
 /* let nameToKhk = {} See algse töötava asjaga ka. */
@@ -142,7 +176,7 @@ function showMapForName(name) {
     L: 'Liivimaa',
     E: 'Eestimaa',
     P: 'Petserimaa',
-    N: 'Narvataguse'
+    N: 'Narvatagune'
   }
 
   // --- Filter general KBM codes to only those we recognize (ignore VAN, EES)
@@ -201,8 +235,19 @@ document.getElementById('info-close').addEventListener('click', () => {
 async function init() {
   await loadNameKhkLookup()
 
-  const geoJson = await fetch('geojson/kihelkonnad_4326.geojson').then(r => r.json())
+map.createPane('polygonsPane');
+map.getPane('polygonsPane').style.zIndex = 200;   // lowest
+
+map.createPane('boundariesPane');
+map.getPane('boundariesPane').style.zIndex = 400; // above polygons
+
+map.createPane('kubermangPane');
+map.getPane('kubermangPane').style.zIndex = 450;  // above boundaries
+
+  //Kihelkondade kiht
+  const geoJson = await fetch('geojson/khk_knab_4326.geojson').then(r => r.json())
   polygons = L.geoJson(geoJson, {
+    pane: 'polygonsPane',
     onEachFeature: (feature, layer) => {
       const khkCode = feature.properties.KHK
       const khkName = feature.properties.NIMI
@@ -218,14 +263,39 @@ async function init() {
     }
   }).addTo(map)
 
+  //Maakonnapiiride kiht
   const boundariesJson = await fetch('geojson/maakonnad_lines_4326.geojson').then(r => r.json())
   boundaries = L.geoJson(boundariesJson, {
+    pane: 'boundariesPane',
     style: {
       color: 'black',   
       weight: 1.5,        
       fill: false        
     }
   }).addTo(map)
+
+  //Kubermangu piir
+  const kubermangJson = await fetch('geojson/kubermang_lines_4326.geojson').then(r => r.json())
+  kubermang = L.geoJson(kubermangJson, {
+    pane: 'kubermangPane',
+    style: {
+      color: '#4125d0',   
+      weight: 2.0,        
+      fill: false        
+    }
+  }).addTo(map)
+
+  const layerControlOptions = {
+      collapsed: false,
+      position: 'topleft'
+    }
+
+  const layerControl = L.control.layers(null, {
+    "Kubermangude piirid": kubermang,
+    "Maakondade piirid": boundaries,
+    "Kihelkonnad": polygons
+  }, layerControlOptions).addTo(map)
+}
 
   //Kohanimede paigutus Turfi abil, esimene katse.
   /*geoJson.features.forEach(feature => {
@@ -257,8 +327,5 @@ async function init() {
 
     L.marker([coords[1], coords[0]], { icon: label, interactive: false }).addTo(map)
 }) */
-
-
-}
 
 init()
