@@ -221,7 +221,7 @@ async function init() {
   const boundariesJson = await fetch('geojson/maakonnad_lines_4326.geojson').then(r => r.json())
   boundaries = L.geoJson(boundariesJson, {
     style: {
-      color: '#000407ff',   
+      color: 'black',   
       weight: 1.5,        
       fill: false        
     }
