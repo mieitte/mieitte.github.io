@@ -1,4 +1,4 @@
-let map = L.map('map').setView([58.588443, 25.787725], 7)
+let map = L.map('map').setView([58.588443, 25.787725], 8)
 
 const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   maxZoom: 19,
@@ -20,7 +20,7 @@ maaametOrto.addTo(map);
 
 // default map settings
 /*function defaultMapSettings() {
-  map.setView([58.588443, 25.787725], 7)
+  map.setView([58.588443, 25.787725], 8)
 } */
 
   //Tagastame algse seisu.
@@ -369,5 +369,4 @@ map.getPane('kubermangPane').style.zIndex = 450;  // above boundaries
     "Kihelkonnad": polygons
   }, layerControlOptions).addTo(map)
 }
-
 init()
