@@ -48,7 +48,7 @@ function clearMapState() {
   });
 
   //Zuumiastme taastamine.
-  map.setView([58.588443, 25.787725], 8);
+  map.setView([58.588443, 25.787725], 7);
 }
 
 
