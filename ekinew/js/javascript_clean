@@ -325,7 +325,7 @@ map.getPane('kubermangPane').style.zIndex = 450;  // above boundaries
     // Always choose a good visible point inside the polygon
     const center = turf.pointOnFeature(feature)
     const coords = center.geometry.coordinates
-    const khkName = feature.properties.KHK //.replace(/([-–])/, '$1<br>') kui panna nimi.
+    const khkName = feature.properties.KHK //.replace(/([-–])/, '$1<br>') kui panna  nimi.
 
     const label = L.divIcon({
       className: 'parish-label',
