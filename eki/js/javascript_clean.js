@@ -1,4 +1,4 @@
-let map = L.map('map').setView([58.588443, 25.787725], 7)
+let map = L.map('map').setView([58.588443, 25.787725], 8)
 
 const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   maxZoom: 19,
@@ -29,13 +29,35 @@ function clearMapState() {
   currentSelectedName = '';
 
   // Reset polygon colors to their default style
-  polygons.eachLayer(layer => {
+  /*polygons.eachLayer(layer => {
     layer.setStyle({
       fillColor: '#D3D8E0',
       fillOpacity: 0.9,
       color: 'black',
       weight: 0.5
     });
+  }); */
+  polygons.eachLayer(layer => {
+    const khk = layer.feature.properties.KHK.trim();  // kui on peidetud tühikuid
+
+    // Base style
+    const baseStyle = {
+      fillColor: '#D3D8E0',
+      fillOpacity: 0.9,
+      color: 'black',
+      weight: 1.0
+    };
+
+    // KHK length 1 → special opacity
+    if (khk.length === 1) {
+      layer.setStyle({
+        ...baseStyle,
+        fillOpacity: 0.7,
+        weight: 0.5
+      });
+    } else {
+      layer.setStyle(baseStyle);
+    }
   });
 
   // Close info box
@@ -48,7 +70,7 @@ function clearMapState() {
   });
 
   //Zuumiastme taastamine.
-  map.setView([58.588443, 25.787725], 7);
+  map.setView([58.588443, 25.787725], 8);
 }
 
 
@@ -189,14 +211,14 @@ function showMapForName(name) {
     let regionText = ''
 
     if (regions.length === 1) {
-      regionText = `Nime "${name}" esinemisalaks on (ka) ${regions[0]}.` //(ka) lisatud nt nime Aeg jaoks (Käina+Petserimaa)
+      regionText = `Nime "${name}" esinemisalaks on (ka) ${regions[0]}.<br>` //(ka) lisatud nt nime Aeg jaoks (Käina+Petserimaa)
     } else if (regions.length > 1) {
       const last = regions.pop()
-      regionText = `Nime "${name}" esinemisaladeks on (ka) ${regions.join(', ')} ja ${last}.`
+      regionText = `Nime "${name}" esinemisaladeks on (ka) ${regions.join(', ')} ja ${last}.<br>`
     }
 
     message =
-      `Nime "${name}" puhul ei saa näidata kihelkonna taset kõigis piirkondades, sest hingeloendi andmed ja tegelik elukoht ei vasta üksteisele.` +
+      `Nime "${name}" puhul ei saa näidata kihelkonna taset kõigis piirkondades, sest hingeloendi andmed ja tegelik elukoht ei vasta üksteisele.<br>` +
       (regionText ? `<br>${regionText}` : '')
   }
 
@@ -255,13 +277,64 @@ map.getPane('kubermangPane').style.zIndex = 450;  // above boundaries
       const popupText = `<b>Kihelkond:</b> ${khkName}` //Ilma koodita.
       layer.bindPopup(popupText)
     },
-    style: {
-      fillColor: '#D3D8E0',
-      fillOpacity: 0.9,
-      color: 'black',
+
+  style: function (feature) {
+  const khk = feature.properties.KHK
+
+  const baseStyle = {
+    fillColor: '#D3D8E0',
+    fillOpacity: 0.9,
+    color: 'black',
+    weight: 1.0
+  }
+
+  // If KHK code length is 1 → different opacity
+  if (khk.length === 1) {
+    return {
+      ...baseStyle,
+      //dashArray: '4 10',   // dotted outline
+      //fillColor: '#D7E5F2',
+      fillOpacity: 0.7,
       weight: 0.5
     }
+  }
+
+  // All others → standard style
+  return baseStyle
+}
+    
   }).addTo(map)
+
+  //Turf-katsed:
+  /*geoJson.features.forEach(feature => {
+  const centroid = turf.centroid(feature) //Or pointOnFeature
+  const coords = centroid.geometry.coordinates
+  const khkName = feature.properties.NIMI.replace(/([-–])/, '$1<br>')
+
+  const label = L.divIcon({
+    className: 'parish-label',
+    html: khkName,
+    iconSize: null // Size is controlled via CSS
+  })
+
+  L.marker([coords[1], coords[0]], { icon: label, interactive: false }).addTo(map)
+  })*/ //Turfi lõpp.
+
+  //Turf-katse 2.
+  geoJson.features.forEach(feature => {
+    // Always choose a good visible point inside the polygon
+    const center = turf.pointOnFeature(feature)
+    const coords = center.geometry.coordinates
+    const khkName = feature.properties.KHK //.replace(/([-–])/, '$1<br>') kui panna nimi.
+
+    const label = L.divIcon({
+      className: 'parish-label',
+      html: khkName,
+      iconSize: null
+  })
+
+    L.marker([coords[1], coords[0]], { icon: label, interactive: false }).addTo(map)
+})
 
   //Maakonnapiiride kiht
   const boundariesJson = await fetch('geojson/maakonnad_lines_4326.geojson').then(r => r.json())
@@ -296,36 +369,5 @@ map.getPane('kubermangPane').style.zIndex = 450;  // above boundaries
     "Kihelkonnad": polygons
   }, layerControlOptions).addTo(map)
 }
-
-  //Kohanimede paigutus Turfi abil, esimene katse.
-  /*geoJson.features.forEach(feature => {
-  const centroid = turf.centroid(feature) //Or pointOnFeature
-  const coords = centroid.geometry.coordinates
-  const khkName = feature.properties.NIMI.replace(/([-–])/, '$1<br>')
-
-  const label = L.divIcon({
-    className: 'parish-label',
-    html: khkName,
-    iconSize: null // Size is controlled via CSS
-  })
-
-  L.marker([coords[1], coords[0]], { icon: label, interactive: false }).addTo(map)
-})*/ //Turfi lõpp.
-
-//Uuem katse.
-  /*geoJson.features.forEach(feature => {
-    // Always choose a good visible point inside the polygon
-    const center = turf.pointOnFeature(feature)
-    const coords = center.geometry.coordinates
-    const khkName = feature.properties.NIMI.replace(/([-–])/, '$1<br>')
-
-    const label = L.divIcon({
-      className: 'parish-label',
-      html: khkName,
-      iconSize: null
-  })
-
-    L.marker([coords[1], coords[0]], { icon: label, interactive: false }).addTo(map)
-}) */
 
 init()
