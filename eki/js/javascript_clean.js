@@ -1,4 +1,4 @@
-let map = L.map('map').setView([58.588443, 25.787725], 8)
+let map = L.map('map').setView([58.588443, 25.787725], 7)
 
 const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   maxZoom: 19,
@@ -20,7 +20,7 @@ maaametOrto.addTo(map);
 
 // default map settings
 /*function defaultMapSettings() {
-  map.setView([58.588443, 25.787725], 8)
+  map.setView([58.588443, 25.787725], 7)
 } */
 
   //Tagastame algse seisu.
