@@ -71,6 +71,10 @@ function clearMapState() {
 
   //Zuumiastme taastamine.
   map.setView([58.588443, 25.787725], 6);
+
+  if (!map.hasLayer(polygons)) map.addLayer(polygons);
+  if (!map.hasLayer(boundaries)) map.addLayer(boundaries);
+  if (!map.hasLayer(kubermang)) map.addLayer(kubermang);
 }
 
 
@@ -137,6 +141,7 @@ async function loadNameKhkLookup() {
 //Uue lookupi lõpp.
 
 // --- Highlight matching areas
+/* Algse algus.
 function highlightAreas(khkList) {
   polygons.eachLayer(layer => {
     const areaCode = layer.feature.properties.KHK
@@ -156,6 +161,47 @@ function highlightAreas(khkList) {
       })
     }
   })
+}
+Algse lõpp.*/
+
+function highlightAreas(khkList) {
+  polygons.eachLayer(layer => {
+    const props = layer.feature.properties;
+    const khk = props.KHK;
+
+    const isHighlighted = khkList.includes(khk);
+    const isSingle = khk.length === 1;  // ← special case
+
+    // Base grey
+    const baseStyle = {
+      fillColor: '#D3D8E0',
+      fillOpacity: 0.9,
+      color: 'rgb(97,112,125)',
+      weight: 1
+    };
+
+    // Special case: KHK length 1 → KEEP special opacity, never highlight
+    if (isSingle) {
+      layer.setStyle({
+        ...baseStyle,
+        fillOpacity: 0.7,
+        weight: 0.5
+      });
+      return;
+    }
+
+    // Highlight normally
+    if (isHighlighted) {
+      layer.setStyle({
+        fillColor: 'rgb(65,37,208)',
+        fillOpacity: 0.9,
+        color: 'rgb(97,112,125)',
+        weight: 1
+      });
+    } else {
+      layer.setStyle(baseStyle);
+    }
+  });
 }
 
 // --- Update popups based on current selected name
@@ -248,7 +294,6 @@ function showMapForName(name) {
   }
 }
 
-
 document.getElementById('info-close').addEventListener('click', () => {
   document.getElementById('info-box').style.display = 'none'
 })
@@ -321,7 +366,7 @@ map.getPane('kubermangPane').style.zIndex = 450;  // above boundaries
   })*/ //Turfi lõpp.
 
   //Turf-katse 2.
-  /*geoJson.features.forEach(feature => {
+  geoJson.features.forEach(feature => {
     // Always choose a good visible point inside the polygon
     const center = turf.pointOnFeature(feature)
     const coords = center.geometry.coordinates
@@ -334,7 +379,7 @@ map.getPane('kubermangPane').style.zIndex = 450;  // above boundaries
   })
 
     L.marker([coords[1], coords[0]], { icon: label, interactive: false }).addTo(map)
-}) */
+})
 
   //Maakonnapiiride kiht
   const boundariesJson = await fetch('geojson/maakonnad_lines_4326.geojson').then(r => r.json())
