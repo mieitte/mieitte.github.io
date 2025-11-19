@@ -143,23 +143,42 @@ async function loadNameKhkLookup() {
 // --- Highlight matching areas
 function highlightAreas(khkList) {
   polygons.eachLayer(layer => {
-    const areaCode = layer.feature.properties.KHK
-    if (khkList.includes(areaCode)) {
+    const props = layer.feature.properties;
+    const khk = props.KHK;
+
+    const isHighlighted = khkList.includes(khk);
+    const isSingle = khk.length === 1;  // ← special case
+
+    // Base grey
+    const baseStyle = {
+      fillColor: '#D3D8E0',
+      fillOpacity: 0.9,
+      color: 'rgb(97,112,125)',
+      weight: 1
+    };
+
+    // Special case: KHK length 1 → KEEP special opacity, never highlight
+    if (isSingle) {
+      layer.setStyle({
+        ...baseStyle,
+        fillOpacity: 0.7,
+        weight: 0.5
+      });
+      return;
+    }
+
+    // Highlight normally
+    if (isHighlighted) {
       layer.setStyle({
         fillColor: 'rgb(65,37,208)',
         fillOpacity: 0.9,
         color: 'rgb(97,112,125)',
         weight: 1
-      })
+      });
     } else {
-      layer.setStyle({
-        fillColor: 'rgb(211,216,224)',
-        fillOpacity: 1.0,
-        color: 'rgb(97,112,125)',
-        weight: 1
-      })
+      layer.setStyle(baseStyle);
     }
-  })
+  });
 }
 
 // --- Update popups based on current selected name
