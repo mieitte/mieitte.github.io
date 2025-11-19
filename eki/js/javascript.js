@@ -350,37 +350,6 @@ map.getPane('kubermangPane').style.zIndex = 450;  // above boundaries
     
   }).addTo(map)
 
-  //Turf-katsed:
-  /*geoJson.features.forEach(feature => {
-  const centroid = turf.centroid(feature) //Or pointOnFeature
-  const coords = centroid.geometry.coordinates
-  const khkName = feature.properties.NIMI.replace(/([-–])/, '$1<br>')
-
-  const label = L.divIcon({
-    className: 'parish-label',
-    html: khkName,
-    iconSize: null // Size is controlled via CSS
-  })
-
-  L.marker([coords[1], coords[0]], { icon: label, interactive: false }).addTo(map)
-  })*/ //Turfi lõpp.
-
-  //Turf-katse 2.
-  /*geoJson.features.forEach(feature => {
-    // Always choose a good visible point inside the polygon
-    const center = turf.pointOnFeature(feature)
-    const coords = center.geometry.coordinates
-    const khkName = feature.properties.KHK //.replace(/([-–])/, '$1<br>') kui panna nimi.
-
-    const label = L.divIcon({
-      className: 'parish-label',
-      html: khkName,
-      iconSize: null
-  })
-
-    L.marker([coords[1], coords[0]], { icon: label, interactive: false }).addTo(map)
-}) */
-
   //Maakonnapiiride kiht
   const boundariesJson = await fetch('geojson/maakonnad_lines_4326.geojson').then(r => r.json())
   boundaries = L.geoJson(boundariesJson, {
