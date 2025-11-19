@@ -1,4 +1,4 @@
-let map = L.map('map').setView([58.588443, 25.787725], 6)
+let map = L.map('map').setView([58.588443, 25.787725], 7)
 
 const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   maxZoom: 19,
@@ -70,7 +70,7 @@ function clearMapState() {
   });
 
   //Zuumiastme taastamine.
-  map.setView([58.588443, 25.787725], 6);
+  map.setView([58.588443, 25.787725], 7);
 
   if (!map.hasLayer(polygons)) map.addLayer(polygons);
   if (!map.hasLayer(boundaries)) map.addLayer(boundaries);
