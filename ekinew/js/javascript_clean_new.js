@@ -447,7 +447,7 @@ map.getPane('kubermangPane').style.zIndex = 450;  // above boundaries
   })*/ //Turfi lõpp.
 
   //Turf-katse 2.
-  geoJson.features.forEach(feature => {
+  /*geoJson.features.forEach(feature => {
     // Always choose a good visible point inside the polygon
     const center = turf.pointOnFeature(feature)
     const coords = center.geometry.coordinates
@@ -460,7 +460,7 @@ map.getPane('kubermangPane').style.zIndex = 450;  // above boundaries
   })
 
     L.marker([coords[1], coords[0]], { icon: label, interactive: false }).addTo(map)
-})
+}) */
 
   //Maakonnapiiride kiht
   const boundariesJson = await fetch('geojson/maakonnad_lines_4326.geojson').then(r => r.json())
