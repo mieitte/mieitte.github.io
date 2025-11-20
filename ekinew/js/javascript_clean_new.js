@@ -1,5 +1,5 @@
 /*let map = L.map('map').setView([58.588443, 25.787725], 8) */ //Sellega saab zuumida.
-let map = L.map('map', { center: [58.588443, 25.787725], zoom: 8, zoomControl: false }); //Sellega mitte.
+let map = L.map('map', { center: [58.588443, 25.787725], zoom: 7, zoomControl: false }); //Sellega mitte.
 
 /*const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   maxZoom: 19,
@@ -70,7 +70,7 @@ function clearMapState() {
   });
 
   //Zuumiastme taastamine.
-  map.setView([58.588443, 25.787725], 8);
+  map.setView([58.588443, 25.787725], 7);
 
   //if (!map.hasLayer(polygons)) map.addLayer(polygons); See rida määrab ära, kas kihelkondasid näidatakse rippmenüüs v mitte kui vajutada Taasta algseis.
   if (!map.hasLayer(boundaries)) map.addLayer(boundaries);
