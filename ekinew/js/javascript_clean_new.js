@@ -1,7 +1,7 @@
 /*let map = L.map('map').setView([58.588443, 25.787725], 8) */ //Sellega saab zuumida.
-let map = L.map('map', { center: [58.588443, 25.787725], zoom: 7, zoomControl: false }); //Sellega mitte.
+let map = L.map('map', { center: [58.588443, 25.787725], zoom: 8, zoomControl: false }); //Sellega mitte.
 
-/*const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   maxZoom: 19,
   attribution: 'OpenStreetMap contributors',
 })
@@ -17,7 +17,7 @@ const maaametOrto = L.tileLayer(
   }
 );
 
-maaametOrto.addTo(map); */
+maaametOrto.addTo(map);
 
   //Tagastame algse seisu.
 function clearMapState() {
@@ -70,7 +70,7 @@ function clearMapState() {
   });
 
   //Zuumiastme taastamine.
-  map.setView([58.588443, 25.787725], 7);
+  map.setView([58.588443, 25.787725], 8);
 
   //if (!map.hasLayer(polygons)) map.addLayer(polygons); See rida määrab ära, kas kihelkondasid näidatakse rippmenüüs v mitte kui vajutada Taasta algseis.
   if (!map.hasLayer(boundaries)) map.addLayer(boundaries);
@@ -83,8 +83,8 @@ function clearMapState() {
 let currentSelectedName = '' // stores the currently selected name
 let polygons // will hold the GeoJSON layer
 
-//Uus lookup.
-const nameToKhk = {}
+//Vana lookup.
+/*const nameToKhk = {}
 const nameToKbm = {}
 const nameToGeneralKbm = {}
 
@@ -137,8 +137,81 @@ async function loadNameKhkLookup() {
   console.log('KHKs:', nameToKhk)
   console.log('All KBMs:', nameToKbm)
   console.log('General KBMs:', nameToGeneralKbm)
+} */
+//Vana lookupi lõpp.
+
+//Uus lookup.
+const nameToKhk = {};
+const nameToKbm = {};
+const nameToGeneralKbm = {};
+const nameToKbmDetail = {};   // <-- NEW structure
+
+async function loadNameKhkLookup() {
+  const response = await fetch('data/EPNRi_leviandmed_A-täht.xml');
+  const xmlText = await response.text();
+  const parser = new DOMParser();
+  const xml = parser.parseFromString(xmlText, 'application/xml');
+
+  const ngEntries = xml.querySelectorAll('NG');
+
+  ngEntries.forEach(entry => {
+
+    const nameNode = entry.querySelector('nimi');
+    if (!nameNode) return;
+
+    const name = nameNode.textContent.trim();
+
+    // ------------------------
+    // 1. Collect ALL <khk> for this NG (as before)
+    // ------------------------
+    const khkNodes = entry.querySelectorAll('khk');
+    const khkList = Array.from(khkNodes).map(n => n.textContent.trim());
+    if (khkList.length) {
+      nameToKhk[name] = [...new Set(khkList)];
+    }
+
+    // ------------------------
+    // 2. Inspect each <kbmg> block individually
+    // ------------------------
+    const kbmgEntries = entry.querySelectorAll('kbmg');
+
+    const allKbm = new Set();
+    const generalKbm = new Set();
+    const kbmDetail = [];   // <-- NEW
+
+    kbmgEntries.forEach(kbmg => {
+      const kbmCode = kbmg.querySelector('kbm')?.textContent.trim();
+      if (!kbmCode) return;
+
+      allKbm.add(kbmCode);
+
+      const hasKhk = !!kbmg.querySelector('khk');
+
+      if (!hasKhk) {
+        generalKbm.add(kbmCode);
+      }
+
+      // Store new detailed structure
+      kbmDetail.push({
+        kbm: kbmCode,
+        hasKhk: hasKhk
+      });
+    });
+
+    // Store as before
+    if (allKbm.size) nameToKbm[name] = [...allKbm];
+    if (generalKbm.size) nameToGeneralKbm[name] = [...generalKbm];
+
+    // Store the NEW detailed KBM structure
+    if (kbmDetail.length) nameToKbmDetail[name] = kbmDetail;
+  });
+
+  console.log('KHKs:', nameToKhk);
+  console.log('All KBMs:', nameToKbm);
+  console.log('General KBMs:', nameToGeneralKbm);
+  console.log('KBM detail:', nameToKbmDetail); // <-- NEW
 }
-//Uue lookupi lõpp.
+//Uue lõpp.
 
 // --- Highlight matching areas
 // Algse algus.
@@ -234,6 +307,9 @@ function showMapForName(name) {
     console.log("🔍 Raw khkList:", khkList);
     console.log("🔍 Raw khkList length:", khkList.length); */
 
+    console.log("🔎 generalKbmCodes =", generalKbmCodes);
+    console.log("🔎 nameToKbm =", nameToKbm[name]);
+
     // Only the regional one-letter KBM codes (P, N) → ignore VAN, EES, etc
     const regionalCodes = generalKbmCodes.filter(code =>
         ['P', 'N'].includes(code)
@@ -306,7 +382,9 @@ function showMapForName(name) {
     console.log("🔍 Cleaned hasKhk:", hasKhk);
 
     // KBM codes may include: L, E, P, N, VAN, EES…
-    const kbmList = generalKbmCodes;
+    //const kbmList = generalKbmCodes; Vana.
+    const kbmList = nameToKbm[name] || [];
+    const kbmDetail = nameToKbmDetail[name] || [];
 
     // RULE 1 — VAN (Vana nimekiht)
     if (kbmList.includes("VAN")) {
@@ -315,27 +393,27 @@ function showMapForName(name) {
             `esinemine aastal 1816. Tegu oli mittetalupoegadega.<br><br>`;
     }
 
-    // RULE 2 — L (Liivimaa) CHECK LIIVIMAA JA EESTIMAA!!!
+    // RULE 2— L (Liivimaa)
     if (kbmList.includes("L")) {
-        if (!hasKhk) {
-            message += 
-                `Liivimaa – Nimi esineb enamasti vene rahvusest inimestel, ` +
-                `kelle täpne elukoht pole teada.<br><br>`;
+        const entry = kbmDetail.find(k => k.kbm === "L");
+        const hasKhk = entry ? entry.hasKhk : false;
+
+        if (hasKhk) {
+            message += `Talupoegadele Liivimaa kubermangus (1809) 1822–1826 antud nimi.<br><br>`;
         } else {
-            message += 
-                `Talupoegadele Liivimaa kubermangus (1809) 1822–1826 antud nimi.<br><br>`;
+            message += `Liivimaa – Nimi esineb enamasti vene rahvusest inimestel, kelle täpne elukoht pole teada.<br><br>`;
         }
     }
 
     // RULE 3 — E (Eestimaa)
     if (kbmList.includes("E")) {
-        if (!hasKhk) {
-            message += 
-                `Eestimaa – Nimi esineb enamasti vene rahvusest inimestel, ` +
-                `kelle täpne elukoht pole teada.<br><br>`;
+        const entry = kbmDetail.find(k => k.kbm === "E");
+        const hasKhk = entry ? entry.hasKhk : false;
+
+        if (hasKhk) {
+            message += `Talupoegadele Eestimaa kubermangus 1834–1835 antud nimi.<br><br>`;
         } else {
-            message += 
-                `Talupoegadele Eestimaa kubermangus 1834–1835 antud nimi.<br><br>`;
+            message += `Eestimaa – Nimi esineb enamasti vene rahvusest inimestel, kelle täpne elukoht pole teada.<br><br>`;
         }
     }
 
@@ -447,7 +525,7 @@ map.getPane('kubermangPane').style.zIndex = 450;  // above boundaries
   })*/ //Turfi lõpp.
 
   //Turf-katse 2.
-  /*geoJson.features.forEach(feature => {
+  geoJson.features.forEach(feature => {
     // Always choose a good visible point inside the polygon
     const center = turf.pointOnFeature(feature)
     const coords = center.geometry.coordinates
@@ -460,7 +538,7 @@ map.getPane('kubermangPane').style.zIndex = 450;  // above boundaries
   })
 
     L.marker([coords[1], coords[0]], { icon: label, interactive: false }).addTo(map)
-}) */
+})
 
   //Maakonnapiiride kiht
   const boundariesJson = await fetch('geojson/maakonnad_lines_4326.geojson').then(r => r.json())
