@@ -1,24 +1,6 @@
 /*let map = L.map('map').setView([58.588443, 25.787725], 8) */ //Sellega saab zuumida.
 let map = L.map('map', { center: [58.588443, 25.787725], zoom: 7, zoomControl: false }); //Sellega mitte.
 
-/*const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  maxZoom: 19,
-  attribution: 'OpenStreetMap contributors',
-})
-osm.addTo(map)
-
-//Maa-ameti orto.
-const maaametOrto = L.tileLayer(
-  'https://tiles.maaamet.ee/tm/tms/1.0.0/foto@GMC/{z}/{x}/{y}.png',
-  {
-    tms: true,
-    maxZoom: 19,
-    attribution: '&copy; <a href="https://geoportaal.maaamet.ee">Maa- ja ruumiamet 2025</a>',
-  }
-);
-
-maaametOrto.addTo(map);*/
-
   //Tagastame algse seisu.
 function clearMapState() {
   // Reset current selected name
@@ -451,37 +433,6 @@ map.getPane('kubermangPane').style.zIndex = 450;  // above boundaries
 }
     
   }).addTo(map)
-
-  //Turf-katsed:
-  /*geoJson.features.forEach(feature => {
-  const centroid = turf.centroid(feature) //Or pointOnFeature
-  const coords = centroid.geometry.coordinates
-  const khkName = feature.properties.NIMI.replace(/([-–])/, '$1<br>')
-
-  const label = L.divIcon({
-    className: 'parish-label',
-    html: khkName,
-    iconSize: null // Size is controlled via CSS
-  })
-
-  L.marker([coords[1], coords[0]], { icon: label, interactive: false }).addTo(map)
-  })*/ //Turfi lõpp.
-
-  //Turf-katse 2.
-  /*geoJson.features.forEach(feature => {
-    // Always choose a good visible point inside the polygon
-    const center = turf.pointOnFeature(feature)
-    const coords = center.geometry.coordinates
-    const khkName = feature.properties.KHK //.replace(/([-–])/, '$1<br>') kui panna nimi.
-
-    const label = L.divIcon({
-      className: 'parish-label',
-      html: khkName,
-      iconSize: null
-  })
-
-    L.marker([coords[1], coords[0]], { icon: label, interactive: false }).addTo(map)
-}) */
 
   //Maakonnapiiride kiht
   const boundariesJson = await fetch('geojson/maakonnad_lines_4326.geojson').then(r => r.json())
