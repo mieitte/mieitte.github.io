@@ -1,5 +1,5 @@
 /*let map = L.map('map').setView([58.588443, 25.787725], 8) */ //Sellega saab zuumida.
-let map = L.map('map', { center: [58.588443, 25.787725], zoom: 8, zoomControl: false }); //Sellega mitte.
+let map = L.map('map', { center: [58.588443, 25.787725], zoom: 7, zoomControl: false }); //Sellega mitte.
 
 /*const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   maxZoom: 19,
@@ -17,7 +17,7 @@ const maaametOrto = L.tileLayer(
   }
 );
 
-maaametOrto.addTo(map); */
+maaametOrto.addTo(map);*/
 
   //Tagastame algse seisu.
 function clearMapState() {
@@ -70,7 +70,7 @@ function clearMapState() {
   });
 
   //Zuumiastme taastamine.
-  map.setView([58.588443, 25.787725], 8);
+  map.setView([58.588443, 25.787725], 7);
 
   //if (!map.hasLayer(polygons)) map.addLayer(polygons); See rida määrab ära, kas kihelkondasid näidatakse rippmenüüs v mitte kui vajutada Taasta algseis.
   if (!map.hasLayer(boundaries)) map.addLayer(boundaries);
@@ -82,63 +82,6 @@ function clearMapState() {
 /* let nameToKhk = {} See algse töötava asjaga ka. */
 let currentSelectedName = '' // stores the currently selected name
 let polygons // will hold the GeoJSON layer
-
-//Vana lookup.
-/*const nameToKhk = {}
-const nameToKbm = {}
-const nameToGeneralKbm = {}
-
-async function loadNameKhkLookup() {
-  const response = await fetch('data/EPNRi_leviandmed_A-täht.xml')
-  const xmlText = await response.text()
-  const parser = new DOMParser()
-  const xml = parser.parseFromString(xmlText, 'application/xml')
-
-  const ngEntries = xml.querySelectorAll('NG')
-
-  ngEntries.forEach(entry => {
-    const nameNode = entry.querySelector('nimi')
-    if (!nameNode) return
-
-    const name = nameNode.textContent.trim()
-
-    // Add all khk values under this <NG>
-    const khkNodes = entry.querySelectorAll('khk')
-    const khkList = Array.from(khkNodes).map(node => node.textContent.trim())
-    if (khkList.length) {
-      nameToKhk[name] = [...new Set(khkList)]
-    }
-
-    // For all <kbmg> blocks, check if they contain any <khk>
-    const kbmgEntries = entry.querySelectorAll('kbmg')
-    const allKbm = new Set()
-    const generalKbm = new Set()
-
-    kbmgEntries.forEach(kbmg => {
-      const kbmCode = kbmg.querySelector('kbm')?.textContent.trim()
-      if (!kbmCode) return
-      allKbm.add(kbmCode)
-
-      const khkInside = kbmg.querySelector('khk')
-      if (!khkInside) {
-        generalKbm.add(kbmCode) // No khk = general region
-      }
-    })
-
-    if (allKbm.size) {
-      nameToKbm[name] = [...allKbm]
-    }
-
-    if (generalKbm.size) {
-      nameToGeneralKbm[name] = [...generalKbm]
-    }
-  })
-
-  console.log('KHKs:', nameToKhk)
-  console.log('All KBMs:', nameToKbm)
-  console.log('General KBMs:', nameToGeneralKbm)
-} */
-//Vana lookupi lõpp.
 
 //Uus lookup.
 const nameToKhk = {};
