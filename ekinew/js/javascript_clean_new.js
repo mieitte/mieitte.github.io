@@ -1,7 +1,7 @@
 /*let map = L.map('map').setView([58.588443, 25.787725], 8) */ //Sellega saab zuumida.
 let map = L.map('map', { center: [58.588443, 25.787725], zoom: 8, zoomControl: false }); //Sellega mitte.
 
-const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+/*const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   maxZoom: 19,
   attribution: 'OpenStreetMap contributors',
 })
@@ -17,7 +17,7 @@ const maaametOrto = L.tileLayer(
   }
 );
 
-maaametOrto.addTo(map);
+maaametOrto.addTo(map); */
 
   //Tagastame algse seisu.
 function clearMapState() {
@@ -525,7 +525,7 @@ map.getPane('kubermangPane').style.zIndex = 450;  // above boundaries
   })*/ //Turfi lõpp.
 
   //Turf-katse 2.
-  geoJson.features.forEach(feature => {
+  /*geoJson.features.forEach(feature => {
     // Always choose a good visible point inside the polygon
     const center = turf.pointOnFeature(feature)
     const coords = center.geometry.coordinates
@@ -538,7 +538,7 @@ map.getPane('kubermangPane').style.zIndex = 450;  // above boundaries
   })
 
     L.marker([coords[1], coords[0]], { icon: label, interactive: false }).addTo(map)
-})
+}) */
 
   //Maakonnapiiride kiht
   const boundariesJson = await fetch('geojson/maakonnad_lines_4326.geojson').then(r => r.json())
