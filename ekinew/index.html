@@ -13,21 +13,21 @@
   </head>
   <body class="documentBody">
 	<div class="heading">
-	  <h1>Perekonnanime levik kihelkonniti</h1>
-    <a href="#" class="map-link" onclick="showMapForName('Adams')">Näita kaart</a> <!-- Võrreldes eelmisega siis siin tuleb link keskele. -->
+	  <h1 id="main-heading">Perekonnanime levik kihelkonniti</h1>
+    <a href="#" class="map-link" onclick="showMapForName('Andronova')">Näita kaart</a> <!-- Võrreldes eelmisega siis siin tuleb link keskele. -->
 	</div>
   <div id="info-box"> <!--- Container ja map peavab vb olema info-boxi alla. -->
       <button id="info-close">x</button>
       <div id="info-message"></div>
   </div>
-  <button onclick="clearMapState()">Taasta algseis</button>
+  <button onclick="clearMapState()">Taasta algseis</button> <!-- Või Puhasta kaart?-->
 	<div class="container">
 	<div id="map"></div>
 	</div>
   <!-- Leaflet's script -->
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-  <!--<script src="https://unpkg.com/@turf/turf@6.5.0/turf.min.js"></script> -->
-	<script src="js/javascript.js"></script> <!--instead of clean-->
+  <script src="https://unpkg.com/@turf/turf@6.5.0/turf.min.js"></script>
+	<script src="js/javascript_clean_new.js"></script>
   </body>
 </html>
 
