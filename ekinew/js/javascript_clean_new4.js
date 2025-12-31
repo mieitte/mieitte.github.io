@@ -458,7 +458,7 @@ async function init() {
   }).addTo(map);
 
   //Kubermangu piir
-  const kubermangJson = await fetch('geojson/kubermang_lines_4326.geojson').then(r => r.json());
+  const kubermangJson = await fetch('geojson/kubermang_lines_4326_new.geojson').then(r => r.json());
   kubermang = L.geoJson(kubermangJson, {
     pane: 'kubermangPane',
     style: {
@@ -547,5 +547,6 @@ async function init() {
 }
 
 init();
+
 
 
