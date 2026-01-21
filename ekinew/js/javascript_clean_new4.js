@@ -320,7 +320,7 @@ function showMapForName(name) {
   // Detect whether the XML had <khk> for this name
   const hasKhk = khkList.length > 0;
 
-  console.log("🔍 Cleaned hasKhk:", hasKhk);
+  console.log("Cleaned hasKhk:", hasKhk);
 
   // KBM codes may include: L, E, P, N, VAN, EES…
   const kbmList = nameToKbm[name] || [];
@@ -547,6 +547,7 @@ async function init() {
 }
 
 init();
+
 
 
 
