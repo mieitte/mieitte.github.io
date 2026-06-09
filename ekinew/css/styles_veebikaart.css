@@ -59,10 +59,19 @@ h1 {
   content: "Haldusjaotus";
   display: block;
   font-weight: bold;
-  font-size: 16px;
+  font-size: 18px;
   padding: 4px 8px;
   margin-bottom: 4px;
   border-bottom: 1px solid #ccc;
+}
+
+.leaflet-control-layers label span {
+    font-size: 16px;
+}
+
+.leaflet-control-layers input[type="checkbox"] {
+    transform: scale(1.2);
+    margin-right: 6px;
 }
 
 /* Nähtamatute labelite stiil - algne. */
