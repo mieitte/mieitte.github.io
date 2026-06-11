@@ -112,7 +112,16 @@ h1 {
   color: black;
   /*white-space: nowrap;
   pointer-events: none; */
-} /*Uue lõpp.*/         
+} /*Uue lõpp.*/
+
+@media (max-width: 768px) {
+
+    .kubermang-label {
+        font-size: 11px;
+        padding: 0.2em 0.4em;
+    }
+
+}
 
 #info-box {
     position: absolute;
