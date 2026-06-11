@@ -94,11 +94,11 @@ h1 {
 @media (max-width: 768px) {
 
     .leaflet-control-layers-list::before {
-        font-size: 14px;
+        font-size: 12px;
     }
 
     .leaflet-control-layers label span {
-        font-size: 12px;
+        font-size: 10px;
     }
 
     .leaflet-control-layers input[type="checkbox"] {
