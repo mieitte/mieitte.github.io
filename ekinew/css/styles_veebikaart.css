@@ -52,6 +52,12 @@ h1 {
 	display: block;
 }
 
+@media (max-width: 768px) {
+    #map {
+        height: 80vh;
+    }
+}
+
 .popup-text {
   font-family: Helvetica, sans-serif;
   font-size: 14px;
