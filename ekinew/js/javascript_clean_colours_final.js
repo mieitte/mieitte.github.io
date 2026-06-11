@@ -54,6 +54,8 @@ function clearMapState() {
   //Zuumiastme taastamine.
   //map.setView([58.588443, 25.787725], 8);
 
+  map.fitBounds(polygons.getBounds()); //Uus.
+
   //if (!map.hasLayer(polygons)) map.addLayer(polygons); See rida määrab ära, kas kihelkondasid näidatakse rippmenüüs v mitte kui vajutada Taasta algseis.
   if (!map.hasLayer(boundaries)) map.addLayer(boundaries);
   if (!map.hasLayer(kubermang)) map.addLayer(kubermang);
@@ -437,6 +439,8 @@ async function init() {
     style: feature => getDefaultStyle(feature),
 
   }).addTo(map);
+
+  map.fitBounds(polygons.getBounds()); //Uus.
 
   //Maakonnapiiride kiht
   const boundariesJson = await fetch('geojson/maakonnad_lines_4326.geojson').then(r => r.json());
