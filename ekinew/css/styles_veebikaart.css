@@ -91,6 +91,22 @@ h1 {
     margin-right: 6px;
 }
 
+@media (max-width: 768px) {
+
+    .leaflet-control-layers-list::before {
+        font-size: 14px;
+    }
+
+    .leaflet-control-layers label span {
+        font-size: 12px;
+    }
+
+    .leaflet-control-layers input[type="checkbox"] {
+        transform: scale(1);
+    }
+
+}
+
 /* Nähtamatute labelite stiil - algne. */
 /*.kubermang-label {
   font-size: 20px;
