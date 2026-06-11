@@ -53,8 +53,17 @@ h1 {
 }
 
 @media (max-width: 768px) {
-    #map {
-        height: 80vh;
+  .documentBody {
+      margin: 10px;
+      padding: 5px;
+  } 
+  
+  .container {
+      height: 70vh;
+  }
+  
+  #map {
+        height: 100%;
     }
 }
 
