@@ -1,6 +1,7 @@
 /*let map = L.map('map').setView([58.588443, 25.787725], 8) */ //Sellega saab zuumida.
 //let map = L.map('map', { center: [58.588443, 25.787725], zoom: 8, zoomControl: false }); //Sellega ainult hiire rulliga.
-let map = L.map('map', { center: [58.588443, 25.787725], zoom: 8, zoomControl: false, scrollWheelZoom: false, touchZoom: false}); //Sellega üldse mitte.
+let map = L.map('map', { center: [58.588443, 25.787725], zoom: 8, zoomControl: false, scrollWheelZoom: false, touchZoom: true}); //Saab zuumida sõrmedega mobiilis.
+//let map = L.map('map', { center: [58.588443, 25.787725], zoom: 8, zoomControl: false, scrollWheelZoom: false, touchZoom: false}); //Sellega üldse mitte.
 
 //map.scrollWheelZoom.disable();
 //map.touchZoom.disable();
