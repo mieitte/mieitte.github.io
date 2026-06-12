@@ -453,13 +453,16 @@ async function init() {
     map.fitBounds(polygons.getBounds());
 }
 
+const isMobile = window.innerWidth <= 768;
+
   //Maakonnapiiride kiht
   const boundariesJson = await fetch('geojson/maakonnad_lines_4326.geojson').then(r => r.json());
   boundaries = L.geoJson(boundariesJson, {
     pane: 'boundariesPane',
     style: {
       color: 'black',
-      weight: 1.5, //ALgselt 2.0
+      //weight: 1.5, //ALgselt 2.0
+      weight: isMobile ? 1 : 1.5,
       fill: false
     }
   }).addTo(map);
@@ -471,7 +474,8 @@ async function init() {
     style: {
       //color: '#4125d0',
       color: 'black',
-      weight: 2.5,
+      //weight: 2.5,
+      weight: isMobile ? 1.5 : 2.5,
       fill: false
     }
   }).addTo(map);
