@@ -57,6 +57,14 @@ function clearMapState() {
 
   map.fitBounds(polygons.getBounds()); //Uus.
 
+  if (window.innerWidth <= 768) {
+    map.fitBounds(polygons.getBounds(), {
+        paddingBottomRight: [0, 120]
+    });
+} else {
+    map.fitBounds(polygons.getBounds());
+}
+
   //if (!map.hasLayer(polygons)) map.addLayer(polygons); See rida määrab ära, kas kihelkondasid näidatakse rippmenüüs v mitte kui vajutada Taasta algseis.
   if (!map.hasLayer(boundaries)) map.addLayer(boundaries);
   if (!map.hasLayer(kubermang)) map.addLayer(kubermang);
@@ -442,6 +450,14 @@ async function init() {
   }).addTo(map);
 
   map.fitBounds(polygons.getBounds()); //Uus.
+
+  if (window.innerWidth <= 768) {
+    map.fitBounds(polygons.getBounds(), {
+        paddingBottomRight: [0, 120]
+    });
+} else {
+    map.fitBounds(polygons.getBounds());
+}
 
   //Maakonnapiiride kiht
   const boundariesJson = await fetch('geojson/maakonnad_lines_4326.geojson').then(r => r.json());
