@@ -49,7 +49,7 @@ function clearMapState() {
   //Zuumiastme taastamine.
   //map.setView([58.588443, 25.787725], 8);
 
-  map.fitBounds(polygons.getBounds()); //Uus.
+  //map.fitBounds(polygons.getBounds()); //Uus.
 
   if (window.innerWidth <= 768) {
     map.fitBounds(polygons.getBounds(), {
@@ -443,7 +443,7 @@ async function init() {
 
   }).addTo(map);
 
-  map.fitBounds(polygons.getBounds()); //Uus.
+  //map.fitBounds(polygons.getBounds()); //Uus.
 
   if (window.innerWidth <= 768) {
     map.fitBounds(polygons.getBounds(), {
