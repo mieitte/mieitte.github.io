@@ -4,12 +4,6 @@
 let map = L.map('map', { zoomControl: false, scrollWheelZoom: false, touchZoom: true}); //Mobiilisõbralikum.
 //let map = L.map('map', { center: [58.588443, 25.787725], zoom: 8, zoomControl: false, scrollWheelZoom: false, touchZoom: false}); //Sellega üldse mitte.
 
-//map.scrollWheelZoom.disable();
-//map.touchZoom.disable();
-
-//console.log(map.scrollWheelZoom.enabled()); // must be false
-//console.log(map.touchZoom.enabled());       // must be false
-
 /*const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   maxZoom: 19,
   attribution: 'OpenStreetMap contributors',
@@ -513,13 +507,7 @@ async function init() {
   kubermangLabels.addLayer(label);
 }
 
-    });
-    
-    //kubermangPolygons.addTo(map);//Seni kihi lisamine. See rida lisab ta kohe alguses.
-    /*const kubermangGroup = L.layerGroup([
-    kubermangPolygons,
-    kubermangLabels
-    ]).addTo(map);*/
+    });    
 
     map.on('overlayadd', function (e) {
         if (e.name === "Kubermangude piirid") {
