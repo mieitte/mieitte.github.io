@@ -107,6 +107,10 @@ h1 {
 
 }
 
+.leaflet-interactive {
+    cursor: default !important;
+}
+
 /* Nähtamatute labelite stiil - algne. */
 /*.kubermang-label {
   font-size: 20px;
